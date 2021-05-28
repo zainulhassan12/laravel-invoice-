@@ -1,0 +1,31 @@
+.navbar {
+    background-color: #563d7c !important;
+}
+
+nav>a,
+.nav-link {
+    color: aliceblue !important;
+}
+
+.btn-primary {
+    border-radius: 8px 0px 0px 8px;
+}
+
+.btn-danger {
+    border-radius: 0px 8px 8px 0px;
+}
+
+.invoice-dropdown {
+    /* background-color: none; */
+    background: transparent;
+    border: none;
+}
+
+.nvoice-dropdown:hover {
+    text-decoration: none;
+}
+
+
+/* .nav-link {
+    color: aliceblue !important;
+} */
