@@ -8,6 +8,7 @@
         <th scope="col"></th>
         <th scope="col">Cources name</th>
         <th scope="col">Short name</th>
+        <th scope="col">Tuition Fee</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -16,11 +17,13 @@
      <tr>
         <th scope="col"><Input type="checkbox" name="choice"></th>
         <td>{{$item -> fullname}}</td>
+       
         <td>{{$item -> shortname}}</td>
+        <td>$200</td>
         <td>
             <div class="btn-group btn-sm btn-group-toggle" data-toggle="buttons">
               <a href="#">
-                <button class="btn btn-primary btn-sm">check</button>
+                <button class="btn btn-primary btn-sm">View</button>
 
               </a>
        
