@@ -39,12 +39,15 @@
                 <td>{{$item->Current_Level }}</td>
                 <td>{{$item->Data_Entered_By }}</td>
                 <td>
-                    <form action="{{ url('/viewstudent',$item->ZCBM_Id)}}" method="GET">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <button type="submit" class="">View</button>
-                    <a href="{{ url('/rm-student',$item->ZCBM_Id)}}" class="">delete</a>
-                  </div>
-                  </form>
+                    
+                        <form class="form-inline" action="{{ url('/viewstudent',$item->ZCBM_Id)}}" method="GET">
+                            <div class="btn-group" data-toggle="">
+                                <button class="btn btn-primary btn-sm" type="submit">view</button>
+                                <a class="btn btn-danger btn-sm" href="{{ url('/rm-student',$item->ZCBM_Id)}}"> delete</a>
+                            </div>
+                        </form>
+                    
+                   
                 </td>
               </tr>
                 

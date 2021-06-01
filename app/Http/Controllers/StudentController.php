@@ -67,10 +67,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        dd($id);
-        $students = Student::all() ;
-        $student = $students->find($id);
-        dd($student);
+        $students = Student::find('ZCBM_id'$id)->tosql() ;
+        dd($students);
+        return view('students.viewStudent')->with('Data', $student);
     }
 
     /**
