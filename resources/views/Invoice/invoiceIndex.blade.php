@@ -22,10 +22,26 @@
         <td>$200</td>
         <td>
             <div class="btn-group btn-sm btn-group-toggle" data-toggle="buttons">
-              <a href="#">
-                <button class="btn btn-primary btn-sm">View</button>
+              
+                <button class="btn btn-primary btn-sm" id="a1" value="{{$item-> id}}" >View</button>
+                {{-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">View</button>
+                  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <table>
+                          <tr>
+                            <th>catagory</th>
+                            <th>Duration</th>
 
-              </a>
+                          </tr>
+                          <tr>
+                            <td>{{$item -> category}}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div> --}}
+              
        
             
               <button class="btn btn-danger btn-sm">delete</button>
@@ -38,4 +54,23 @@
 
     </tbody>
   </table>
+
+
+  
+@endsection
+
+@section('main-script')
+<script>
+  $(document).ready(function(){
+    console.log("abc")
+    $('#a1').click(function( ){
+    btn = $(this).value();
+    console.log("abc")
+  })
+});
+
+ 
+  
+
+</script>
 @endsection

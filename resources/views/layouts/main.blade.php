@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <title>Zcbm Invoices Portal</title>
   </head>
   <body>
@@ -23,7 +24,24 @@
             <a class="nav-link" href="{{ url('/home') }}">cources <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/') }}">Invoices</a>
+            <div class="btn-group">
+              <a class="nav-link dropdown-toggle invoice-dropdown"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Students
+              </a>
+              
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{ url('/addstudent') }}">Create Students</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{url('/student')}}">View Students</a>
+                  {{-- <div class="dropdown-divider"></div>
+                  {{-- <a class="dropdown-item" href="#"></a>
+                  <div class="dropdown-divider"></div> --}} 
+                  
+                </div>
+
+             
+            </div>
+            {{-- <a class="nav-link" href="{{ url('/') }}">Invoices</a> --}}
           </li>
           <li class="nav-item">
             <div class="btn-group">
@@ -51,14 +69,14 @@
       </div>
     </nav>
     <div class="container">
-
+      <div class="col-md-12">
         @yield('main-body')
-
+      </div>        
     </div>
     
+
+
     @yield('main-script')
-      
-    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
