@@ -1,8 +1,20 @@
 @extends('layouts.main')
-
 @section('main-body')
 
-<div class="col-md-8 col-sm-12">
+<div class="">
+  @if(Session::has('success'))
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4" > 
+      <div class="alert alert-success">
+        <span style="" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>Success!!</strong>Operation performed sucessfully<br><br>
+        <strong>{{Session::get('success')}}</strong>
+    </div>
+  </div>
+ </div>
+   
+@endif
     <h4>Students</h4>
     <table class="table table-sm table-bordered">
         <thead class="thead-light">
@@ -40,10 +52,13 @@
                 <td>{{$item->Data_Entered_By }}</td>
                 <td>
                     
-                        <form class="form-inline" action="{{ url('/viewstudent',$item->ZCBM_Id)}}" method="GET">
-                            <div class="btn-group" data-toggle="">
-                                <button class="btn btn-primary btn-sm" type="submit">view</button>
-                                <a class="btn btn-danger btn-sm" href="{{ url('/rm-student',$item->ZCBM_Id)}}"> delete</a>
+                        <form class="form-inline" action="{{ Route('DeleteStudent',$item->ZCBM_Id)}}" method="POST">
+                          <div class="btn-group" data-toggle="">
+                                <a class="btn btn-primary btn-sm" href="{{ Route('DisplayStudent',$item->ZCBM_Id)}}"> View</a>
+                                <a class="btn btn-secondary btn-sm" href="{{ Route('EditStudent',$item->ZCBM_Id)}}"> edit</a>
+                                <button class="btn btn-danger btn-sm btn-right" type="submit">delete</button>
+                                @csrf
+                                @method('DELETE') 
                             </div>
                         </form>
                     
@@ -58,6 +73,6 @@
 
 @endsection
 
-@section('main-script')
-      
+@section('main-sript')
+    
 @endsection

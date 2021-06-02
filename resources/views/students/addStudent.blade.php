@@ -4,8 +4,23 @@
 <div class="col-md-10">
     <h3>Student Adding Form</h4>
     <h6>Feilds with <span class="" style="color:red">*</span> are mandatory</h2>
-        <form method="post" action="{{ url('/storestudent') }}">
-            @csrf 
+        <form method="post" action="{{ Route('StoreStudent') }}">
+          <div class="form-row">
+            <div class="form-group col-md-10">
+                {{-- <label for="inputPassword4"><span style="color:red">*</span>Name</label>
+                <input type="text" name="Surname" class="form-control"  value="{{ $item->Name }}" placeholder="Last name" required> --}}
+              </div>
+          <div class="form-group col-md-2">
+            <div class="btn-group float-right">
+              <button class="btn btn-success btn-sm btn-left" type="submit">Save<i class="bi bi-check2-square"></i></button>
+              <a href="javascript:window.history.back();" class="btn btn-danger btn-sm ">
+                Cancel
+                <i class="bi bi-file-excel-fill back-icon"></i>
+              </a>
+            </div>
+          </div>
+          </div>  
+          @csrf 
             @if ($errors->any())
             <div class="alert alert-danger">
                 <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -18,11 +33,11 @@
         @endif
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="inputEmail4">*Name</label>
+                <label for="inputEmail4"><span style="color:red">*</span>Name</label>
                 <input type="text" name="Name" class="form-control" placeholder="First name" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="inputPassword4">Surname</label>
+                <label for="inputPassword4"><span style="color:red">*</span>Surname</label>
                 <input type="text" name="Surname" class="form-control" placeholder="Last name" required>
               </div>
             </div>
@@ -37,7 +52,7 @@
                 </div>
               </div>
             <div class="form-group">
-                <label class="mr-sm-2" for="inlineFormCustomSelect">*Qualification Route</label>
+                <label class="mr-sm-2" for="inlineFormCustomSelect"><span style="color:red">*</span>Qualification Route</label>
                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="Qualification Route" required>
                   <option selected>Choose..</option>
                   <option value="Certificate">Internediate</option>
@@ -51,11 +66,11 @@
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="Total Tuition Fees">*Total Tuition Fees</label>
+                        <label for="Total Tuition Fees"><span style="color:red">*</span>Total Tuition Fees</label>
                         <input type="number" id="Total Tuition Fees" name="Total_Tuition_Fees"  class="form-control" placeholder="Total Tuition Fees" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="Discount">*Discount</label>
+                        <label for="Discount"><span style="color:red">*</span>Discount</label>
                         <input type="number" id="Discount" name="Discount"  class="form-control" placeholder="Discount" required>
                     </div>
                 </div>
@@ -84,7 +99,7 @@
               </div> --}}
             </div>
           
-            <button type="submit" class="btn btn-primary">Add Student</button>
+            {{-- <button type="submit" class="btn btn-primary">Add Student</button> --}}
         </form>    
 </div>
 

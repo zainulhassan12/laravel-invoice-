@@ -20,16 +20,32 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::group(['prefix'=>'zcbminvoice'], function(){
 
-Route::get('/StudenIndex',  [InvoiceController::class, 'index']);
-Route::get('/student',  [StudentController::class, 'index'])->name('StudentHome');
-Route::get('/addstudent',  [StudentController::class, 'create']);
-Route::post('/storestudent',  [StudentController::class, 'store'])->name('StoreStudent');
-
-Route::get('/viewstudent/{id}',  [StudentController::class, 'show'])->name('DisplayStudent');;
-Route::get('/rm-student/{id}',  [StudentController::class, 'delete'])->name('DeleteStudent');
+});
 
 
+Route::group(['prefix'=>'student'], function(){
+    Route::get('/students',  [StudentController::class, 'index'])->name('StudentIndex');
+    Route::get('/addstudent',  [StudentController::class, 'create'])->name('CreateStudent');
+    Route::post('/storestudent',  [StudentController::class, 'store'])->name('StoreStudent');
+    Route::get('/editstudent/{id}',  [StudentController::class, 'edit'])->name('EditStudent');
+    Route::put('/up-student/{id}',  [StudentController::class, 'update'])->name('UpdateStudent');
+    Route::get('/viewstudent/{id}',  [StudentController::class, 'show'])->name('DisplayStudent');
+    Route::delete('/rm-student/{id}',  [StudentController::class, 'destroy'])->name('DeleteStudent');
+    
+    
+});
+
+Route::group(['prefix'=>'invoice'], function(){
+    Route::get('/index',  [InvoiceController::class, 'index'])->name('InvoiceIndex');
+    Route::get('/create',  [InvoiceController::class, 'create'])->name('InvoiceCreate');
+    Route::get('/store',  [InvoiceController::class, 'store'])->name('InvoiceStore');
+    Route::get('/update/{id}',  [InvoiceController::class, 'update'])->name('InvoiceUpdate');
+    Route::get('/delete',  [InvoiceController::class, 'destroy'])->name('InvoiceDelete');
+    Route::get('/show/{id}',  [InvoiceController::class, 'show'])->name('InvoiceShow');
+
+});
 
 
 
