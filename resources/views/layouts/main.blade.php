@@ -74,13 +74,18 @@
     </nav>
     
       <div class="container-fluid" style="padding: 1rem">
-        <form>
-          {{-- <button type="button"  class="btn btn-info btn-sm back" onclick="history.back()">
-            
-            Back
-          </button> --}}
-          <a href="javascript:window.history.back();" class=""><i class="bi bi-arrow-left-circle" style="font-size:3rem;color:deepskyblue"></i></a>
-         </form>
+        <div class="col-md-1 float-left pull-left">
+          <form class="">
+            {{-- <button type="button"  class="btn btn-info btn-sm back" onclick="history.back()">
+              Back
+            </button> --}}
+            <a href="javascript:window.history.back();" class=""><i class="bi bi-arrow-left-circle back-icon-3" style="font-size:3rem;color:deepskyblue"></i></a>
+           </form>
+        </div>
+        <div class="col-md-11 float-left pull-left">
+          @yield('page-headings')
+        </div>
+        
       </div>
       
     <div class="container"  style="max-width: 1174px;">

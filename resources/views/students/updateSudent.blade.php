@@ -1,7 +1,10 @@
 @extends('layouts.main')
 
 @section('main-body')
+@section('page-headings')
 <h4>Update Form</h4>
+@endsection
+
 @if ($errors->any())
 <div class="row">
   <div class="col-md-6">

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\zcbm_cources;
+use App\Models\zcbm_cource_fee;
+
 use DB;
 
 class InvoiceController extends Controller
@@ -14,7 +17,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $students = DB::table('zcbm_course')->select('id','fullname', 'shortname', 'category')->limit(10)->where('id', '>', 1)->get();
+        // $students = DB::table('zcbm_course')->select('id','fullname', 'shortname', 'category')->where('id', '>', 1)->get();
+        $students = zcbm_cources::paginate(7);
+        $price = zcbm_cources::find(1);
         return view('invoice.invoiceIndex') ->with('cource' , $students);
     }
 
@@ -79,8 +84,33 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function priceIndex(){
+        $fee = zcbm_cource_fee::paginate(6);
+        $cource = zcbm_cources::paginate(7);
+        $data = Array(
+            'fee' => $fee,
+            'course' => $cource 
+        );
+        // $cources_fee = DB::select('id','fullname', )
+        $cources_fee = DB::table('zcbm_course')->select('id','fullname',DB::raw('fee_id as price'))
+        ->join('zcbm_cource_fees', 'zcbm_course.id', '=', 'zcbm_cource_fees.id')->get();
+        dd($cources_fee);
+        return view('prices.priceDashboard')->with('fee',$fee)->with('course', $cource );
+    }
     public function destroy($id)
     {
-        //
+        
+    }
+    public function addPirce(Request $request)
+    {
+
+    }
+    public function deletePirce(Request $request, $id)
+    {
+
+    }
+    public function updatePirce(Request $request, $id)
+    {
+
     }
 }

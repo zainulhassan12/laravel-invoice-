@@ -1,6 +1,8 @@
 @extends('layouts.main')
+@section('page-headings')
+<h4>Students Details</h4>
+@endsection
 @section('main-body')
-
 <div class="">
   @if(Session::has('success'))
   <div class="row">
@@ -15,7 +17,6 @@
  </div>
    
 @endif
-    <h4>Students</h4>
     <table class="table table-sm table-bordered">
         <thead class="thead-light">
           <tr>

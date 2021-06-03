@@ -2,7 +2,10 @@
 
 @section('main-body')
 <div class="col-md-12">
-    <h3>Student Details</h4>
+  @section('page-headings')
+   <h3>Student Details</h4>
+  @endsection
+    
       {{-- <a href="../" class="btn btn-primary pull-left">back</a>   --}}
       @if ($errors->any())
       <div class="alert alert-danger">

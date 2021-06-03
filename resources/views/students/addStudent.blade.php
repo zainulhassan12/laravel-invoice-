@@ -1,9 +1,10 @@
 @extends('layouts.main')
-
+@section('page-headings')
+  <h4>Student Adding Form</h4>
+  <h6>Feilds with <span class="" style="color:red">*</span> are mandatory</h2>
+@endsection
 @section('main-body')
 <div class="col-md-10">
-    <h3>Student Adding Form</h4>
-    <h6>Feilds with <span class="" style="color:red">*</span> are mandatory</h2>
         <form method="post" action="{{ Route('StoreStudent') }}">
           <div class="form-row">
             <div class="form-group col-md-10">

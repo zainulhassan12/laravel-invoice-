@@ -32,9 +32,7 @@ Route::group(['prefix'=>'student'], function(){
     Route::get('/editstudent/{id}',  [StudentController::class, 'edit'])->name('EditStudent');
     Route::put('/up-student/{id}',  [StudentController::class, 'update'])->name('UpdateStudent');
     Route::get('/viewstudent/{id}',  [StudentController::class, 'show'])->name('DisplayStudent');
-    Route::delete('/rm-student/{id}',  [StudentController::class, 'destroy'])->name('DeleteStudent');
-    
-    
+    Route::delete('/rm-student/{id}',  [StudentController::class, 'destroy'])->name('DeleteStudent');   
 });
 
 Route::group(['prefix'=>'invoice'], function(){
@@ -44,6 +42,14 @@ Route::group(['prefix'=>'invoice'], function(){
     Route::get('/update/{id}',  [InvoiceController::class, 'update'])->name('InvoiceUpdate');
     Route::get('/delete',  [InvoiceController::class, 'destroy'])->name('InvoiceDelete');
     Route::get('/show/{id}',  [InvoiceController::class, 'show'])->name('InvoiceShow');
+    
+});
+
+Route::group(['prefix'=>'price'], function(){
+    Route::get('/index',  [InvoiceController::class, 'priceIndex'])->name('PriceIndex');
+    Route::post('/store',  [InvoiceController::class, 'storePrice'])->name('PriceStore');
+    Route::delete('/delete/{id}',  [InvoiceController::class, 'deletePrice'])->name('PriceDelete');
+    Route::put('/update/{id}',  [InvoiceController::class, 'updatePrice'])->name('PriceUpdate');
 
 });
 

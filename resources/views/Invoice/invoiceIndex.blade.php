@@ -17,9 +17,27 @@
      <tr>
         <th scope="col"><Input type="checkbox" name="choice"></th>
         <td>{{$item -> fullname}}</td>
-       
         <td>{{$item -> shortname}}</td>
-        <td>$200</td>
+        <td>
+            <p class="inline-1"><span style="font-size:18px;font-weight:500">$200</span></p>
+              <div class="border-left-span"></div>
+                <a href="{{Route('PriceIndex')}}" class="badge bg" style="">
+                  <i class="bi bi-gear" style="color:black;font-size:19px" title="Manage Prices"></i>
+                </a>
+        </td>      
+ 
+          
+                 {{-- <a href="{{Route('PriceIndex')}}" class="badge bg-info"><i class="bi bi-file-diff" style="color:white;font-size:17px"></i>
+                </a>
+                <br>  --}}
+                {{-- <div class="management-seting">
+                  <span> $200</span>
+                  <br>
+                  
+                  <a href="{{Route('PriceIndex')}}" class="badge bg" style=""><i class="bi bi-file-diff" style="color:balck;font-size:22px"></i>
+                  </a></div> --}}
+          
+        
         <td>
             <div class="btn-group btn-sm btn-group-toggle" data-toggle="buttons">
               
@@ -51,10 +69,14 @@
       </tr>
      @endforeach
       
-
+     {{-- <tr>{{ $cource->links()}}</tr> --}}
     </tbody>
+    
   </table>
-
+  <div class="d-flex justify-content-center">
+    {{-- {!!$sights->appends(Request::all())->links()!!} --}}
+    {{ $cource->links() }}
+  </div>
 
   
 @endsection
@@ -62,6 +84,7 @@
 @section('main-script')
 <script>
   $(document).ready(function(){
+    $('.pagination').addClass('pagination-sm')
     console.log("abc")
     $('#a1').click(function( ){
     btn = $(this).value();
