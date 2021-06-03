@@ -130,4 +130,6 @@ class StudentController extends Controller
         // return Redirect::to("/student/students")->withSuccess('deleted sucessfully!!');
     
     }
+
+    
 }

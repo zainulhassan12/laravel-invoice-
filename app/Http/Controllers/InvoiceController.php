@@ -92,9 +92,10 @@ class InvoiceController extends Controller
             'course' => $cource 
         );
         // $cources_fee = DB::select('id','fullname', )
-        $cources_fee = DB::table('zcbm_course')->select('id','fullname',DB::raw('fee_id as price'))
-        ->join('zcbm_cource_fees', 'zcbm_course.id', '=', 'zcbm_cource_fees.id')->get();
-        dd($cources_fee);
+        $cources_fee = DB::table('zcbm_course')
+        ->select('*','zcbm_course.id','zcbm_course.fullname',DB::raw('zcbm_cource_fees.price as price'))
+        ->join('zcbm_cource_fees', 'zcbm_course.id', '=', 'zcbm_cource_fees.fee_id')->get();
+dd($cources_fee);
         return view('prices.priceDashboard')->with('fee',$fee)->with('course', $cource );
     }
     public function destroy($id)
