@@ -47,6 +47,8 @@ Route::group(['prefix'=>'invoice'], function(){
 
 Route::group(['prefix'=>'price'], function(){
     Route::get('/index',  [InvoiceController::class, 'priceIndex'])->name('PriceIndex');
+    Route::get('/index/pagination',  [InvoiceController::class, 'priceIndex'])->name('PriceIndex');
+
     Route::post('/store',  [InvoiceController::class, 'storePrice'])->name('PriceStore');
     Route::delete('/delete/{id}',  [InvoiceController::class, 'deletePrice'])->name('PriceDelete');
     Route::put('/update/{id}',  [InvoiceController::class, 'updatePrice'])->name('PriceUpdate');
