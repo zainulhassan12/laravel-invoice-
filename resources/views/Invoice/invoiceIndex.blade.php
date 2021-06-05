@@ -27,7 +27,7 @@
 
             @endif
             <div class="border-left-span"></div>
-              <a id="modal-button" href="" data-toggle="modal" data-course="{{$item->fullname}}" data-drop="{{$price}}" data-selected="{{$item->price}}" data-target="#addPrice" data-whatever="@mdo" class="badge bg" style="">
+              <a id="modal-button" href="" data-toggle="modal" data-cid="{{$item->id}}" data-course="{{$item->fullname}}" data-drop="{{$price}}" data-selected="{{$item->price}}" data-target="#addPrice" data-whatever="@mdo" class="badge bg" style="">
                 <i class="bi bi-file-earmark-plus" style="color:black;font-size:19px" title="Add Prices"></i>
               </a> 
             <div class="border-left-span"></div>
@@ -59,27 +59,29 @@
              <h4 class="modal-title" id="myModalLabel"> Add Price Form</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
+        <form id="priceForm" action="" method="POST">
+          @csrf
+          <div class="modal-body" >
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Cource Name</label>
+                <input type="text" class="form-control" name="course" id="previousCource" aria-describedby="emailHelp" readonly>
+                <div id="emailHelp" class="form-text">The course Title...</div>
+              </div>
+              <div class="mb-3">
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Preference</label>
+                <select class="custom-select my-1 mr-sm-2" name='price'  id="dropdown">
+                <!--Added by jquery-->
+                </select>
+              
+            
+          </div>
           <div class="modal-footer">
             <div class="btn-group">
               <button type="submit" class="btn btn-success btn-sm btn-left">save</button>
               <button type="button" class="btn btn-danger btn-sm btn-right" data-dismiss="modal">cancel</button>
             </div> 
         </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Cource Name</label>
-                <input type="text" class="form-control" id="previousCource" aria-describedby="emailHelp" readonly>
-                <div id="emailHelp" class="form-text">The course Title...</div>
-              </div>
-              <div class="mb-3">
-                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Preference</label>
-                <select class="custom-select my-1 mr-sm-2"  id="dropdown">
-                <!--Added by jquery-->
-                </select>
-              
-            </form>
-          </div>
+        </form>
       </div>
   </div>
 </div>
@@ -96,6 +98,7 @@ $(document).ready(function(){
   var dropdown  = button.data('drop')
   var previousPrice = button.data('selected');
   var course = button.data('course');
+  var cid = button.data('cid')
   if(!previousPrice)
   {
     var html ='<option selected>please select a price from dropdown</option>';
@@ -109,7 +112,11 @@ $(document).ready(function(){
     html += ' <option value=" '+dropdown[i].fee_id+'" >$'+dropdown[i].price+'</option>';
   }
   var modal = $(this);
+  $('#priceForm').attr('action', '/price/addprice/'+cid)
+  
   modal.find('.modal-body #dropdown').html(html);
+  // modal.find('.modal-body #priceForm').action('action', '/price/addprice/'+cid);
+
   modal.find('.modal-body #previousCource').val(course);
   
  })

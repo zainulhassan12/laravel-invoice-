@@ -74,6 +74,38 @@
     </nav>
     
       <div class="container-fluid" style="padding: 1rem">
+        @if(Session::has('success'))
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4" > 
+            <div class="alert alert-success">
+              <span style="" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              <strong>Success!!</strong>Operation performed sucessfully<br><br>
+              <strong>{{Session::get('success')}}</strong>
+          </div>
+        </div>
+       </div>
+         
+      @endif
+      @if ($errors->any())
+      <div class="row">
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6">
+          <div class="alert alert-danger float-right">
+            <span style="font-size:29px;cursor:pointer float-right" class="closebtn" onclick="this.parentElement.style.display= 'none';">&times;</span>
+              <strong>Whoops!</strong> There were some problems with your input.<br><br>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+        </div>
+      </div>
+            
+      @endif
         <div class="col-md-1 float-left pull-left">
           <form class="">
             {{-- <button type="button"  class="btn btn-info btn-sm back" onclick="history.back()">

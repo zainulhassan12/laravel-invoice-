@@ -17,17 +17,13 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        // $students = DB::table('zcbm_course')->select('id','fullname', 'shortname', 'category')->where('id', '>', 1)->get();
-        // $students = zcbm_cources::paginate(7);
-        // $price = zcbm_cources::find(1);
         $students =  DB::table('zcbm_course')
         ->select('zcbm_course.id','zcbm_course.fullname','zcbm_course.shortname',DB::raw('zcbm_cource_fees.price as price'))
-        ->leftJoin('zcbm_cource_fees', 'zcbm_course.id', '=', 'zcbm_cource_fees.fee_id')
+        ->leftJoin('zcbm_cource_fees', 'zcbm_course.fee_id', '=', 'zcbm_cource_fees.fee_id')
         ->where('zcbm_course.id','>', '1')
         ->orderBy('id')
         ->Paginate(7, ['*'], 'course');
         $price =zcbm_cource_fee::all();
-        // dd($price);
         return view('invoice.invoiceIndex') ->with('cource' , $students)->with('price',$price);
     }
 
@@ -92,6 +88,16 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+     public function NewPriceEntry(Request $request){
+         $data = $request->validate([
+             'price' => 'required|numeric'
+         ]);
+         $storing_data = new zcbm_cource_fee;
+            $storing_data::create($data);
+         return redirect()->route('PriceIndex')->withSuccess('Price is Addeed successfully!!');
+     }
     public function priceIndex(){
         $fee = zcbm_cource_fee::paginate(3, ['*'], 'fee');
         // $course = zcbm_cources::paginate(7);
@@ -112,12 +118,25 @@ class InvoiceController extends Controller
     {
         
     }
-    public function addPirce(Request $request)
+    public function addPirce(Request $request, $c_id)
     {
-
+        $request->validate([
+        'price'=>'required|numeric|',
+        'course'=> 'required',
+        ]); 
+        $price = $request->price;   
+        $affecetd = DB::table('zcbm_course')
+              ->where('id', $c_id)
+              ->update(['fee_id' => $price]);
+              return redirect()->route('InvoiceIndex')->withsuccess('Price Added to the Course Successfully!!');
+        
     }
     public function deletePirce(Request $request, $id)
     {
+
+    }
+    public function updateModalShow(Request $request){
+        return view('prices.updateModel');
 
     }
     public function updatePirce(Request $request, $id)
@@ -125,3 +144,11 @@ class InvoiceController extends Controller
 
     }
 }
+
+
+ // $abc=zcbm_cources::all();
+        // dd($abc);
+
+        // $students = DB::table('zcbm_course')->select('id','fullname', 'shortname', 'category')->where('id', '>', 1)->get();
+        // $students = zcbm_cources::paginate(7);
+        // $price = zcbm_cources::find(1);

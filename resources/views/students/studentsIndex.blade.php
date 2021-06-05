@@ -4,19 +4,7 @@
 @endsection
 @section('main-body')
 <div class="">
-  @if(Session::has('success'))
-  <div class="row">
-    <div class="col-md-8"></div>
-    <div class="col-md-4" > 
-      <div class="alert alert-success">
-        <span style="" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Success!!</strong>Operation performed sucessfully<br><br>
-        <strong>{{Session::get('success')}}</strong>
-    </div>
-  </div>
- </div>
-   
-@endif
+ 
     <table class="table table-sm table-bordered">
         <thead class="thead-light">
           <tr>
@@ -32,8 +20,6 @@
             <th scope="col">Current Level</th>
             <th scope="col">Data Entered By</th>
             <th scope="col">Actions</th>
-        
-
           </tr>
         </thead>
         <tbody>
@@ -52,18 +38,15 @@
                 <td>{{$item->Current_Level }}</td>
                 <td>{{$item->Data_Entered_By }}</td>
                 <td>
-                    
-                        <form class="form-inline" action="{{ Route('DeleteStudent',$item->ZCBM_Id)}}" method="POST">
-                          <div class="btn-group" data-toggle="">
-                                <a class="btn btn-primary btn-sm" href="{{ Route('DisplayStudent',$item->ZCBM_Id)}}"> View</a>
-                                <a class="btn btn-secondary btn-sm" href="{{ Route('EditStudent',$item->ZCBM_Id)}}"> edit</a>
-                                <button class="btn btn-danger btn-sm btn-right" type="submit">delete</button>
-                                @csrf
-                                @method('DELETE') 
-                            </div>
-                        </form>
-                    
-                   
+                 <form class="form-inline" action="{{ Route('DeleteStudent',$item->ZCBM_Id)}}" method="POST">
+                    <div class="btn-group" data-toggle="">
+                          <a class="btn btn-primary btn-sm" href="{{ Route('DisplayStudent',$item->ZCBM_Id)}}"> View</a>
+                          <a class="btn btn-secondary btn-sm" href="{{ Route('EditStudent',$item->ZCBM_Id)}}"> edit</a>
+                          <button class="btn btn-danger btn-sm btn-right" type="submit">delete</button>
+                          @csrf
+                          @method('DELETE') 
+                      </div>
+                  </form>
                 </td>
               </tr>
                 

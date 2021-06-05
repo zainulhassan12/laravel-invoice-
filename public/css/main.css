@@ -46,6 +46,10 @@ i {
     border-radius: 0px 8px 8px 0px;
 }
 
+.btn-single {
+    border-radius: 8px 8px 8px 8px;
+}
+
 .alert {
     text-align: left;
     font-size: 13px;
@@ -127,9 +131,10 @@ i {
     border-radius: 0.30rem;
 }
 
-.card-title {
+
+/* .card-title {
     margin: -11px 0px 3rem 0px
-}
+} */
 
 .table {
     font-size: 14px;
