@@ -30,8 +30,8 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </div>
-        @endif
+              </div>
+              @endif
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail4"><span style="color:red">*</span>Name</label>
