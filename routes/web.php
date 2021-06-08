@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CoursesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PriceController;
 use App\Http\Controllers\StudentController;
 
 
@@ -46,14 +48,20 @@ Route::group(['prefix'=>'invoice'], function(){
 });
 
 Route::group(['prefix'=>'price'], function(){
-    Route::get('/index',  [InvoiceController::class, 'priceIndex'])->name('PriceIndex');
-    Route::get('/index/pagination',  [InvoiceController::class, 'priceIndex'])->name('PriceIndex');
-    Route::post ('/addPriceCourse/{c_id}' ,[InvoiceController::class, 'addPirce'])->name('PriceAdding');
-    Route::post ('/addNewPrice' ,[InvoiceController::class, 'NewPriceEntry'])->name('PriceNew');
-    Route::get('/updatemodal' ,[InvoiceController::class,'updateModalShow'])->name('updateModal');
-    Route::post('/store',  [InvoiceController::class, 'storePrice'])->name('PriceStore');
-    Route::delete('/delete/{id}',  [InvoiceController::class, 'deletePrice'])->name('PriceDelete');
-    Route::put('/update/{id}',  [InvoiceController::class, 'updatePrice'])->name('PriceUpdate');
+    Route::get('/index',  [PriceController::class, 'priceIndex'])->name('PriceIndex');
+    // Route::get('/index/pagination',  [PriceController::class, 'priceIndex'])->name('PriceIndex');
+    Route::post ('/CoursePrice/{c_id}' ,[PriceController::class, 'addPircePriceIndex'])->name('PriceAdding');
+    Route::post ('/addNewPrice' ,[PriceController::class, 'NewPriceEntry'])->name('PriceNew');
+    Route::get('/updatemodal' ,[PriceController::class,'updateModalShow'])->name('updateModal');
+    Route::post('/store',  [PriceController::class, 'storePrice'])->name('PriceStore');
+    Route::delete('/delete/{id}',  [PriceController::class, 'deletePrice'])->name('PriceDelete');
+    Route::put('/update/{id}',  [PriceController::class, 'updatePrice'])->name('PriceUpdate');
+
+});
+
+Route::group(['prefix' => 'cources'] , function() {
+    Route::get('/all', [CoursesController::class, 'index'])->name('CourseIndex');
+    Route::post ('/addPriceCourse/{c_id}' ,[CoursesController::class, 'addPirce'])->name('CoursePriceAdding');
 
 });
 

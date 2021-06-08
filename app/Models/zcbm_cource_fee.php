@@ -9,7 +9,7 @@ class zcbm_cource_fee extends Model
 {
     use HasFactory;
     protected $table = 'zcbm_cource_fees';
-    protected $primarykey = 'id';
+    protected $primarykey = 'fee_id';
     protected $fillable =[
         'price'
     ];
