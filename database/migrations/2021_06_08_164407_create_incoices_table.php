@@ -13,16 +13,20 @@ class CreateIncoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('incoices', function (Blueprint $table) {
+        Schema::create('zcbm_invoices_seprate', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ZCBM_Id')->constrained('student_id');
+            $table->foreignId('student_id')->references('ZCBM_Id')->on('students')->onDelete('cascade');
+            $table->integer('course_id');
+            $table->integer('fee_id');
             $table->string('current_level');
             $table->string('qualification_route');
             $table->date('start_date');
-            $table->
-
-
-            $table->timestamps();
+            $table->integer('ammount_paid');
+            $table->integer('total_ammount');
+            $table->integer('balance');
+            $table->string('issued_by');
+            $table->timestamp('issue_date');
+        
         });
     }
 
@@ -33,6 +37,6 @@ class CreateIncoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incoices');
+        Schema::dropIfExists('invoices');
     }
 }

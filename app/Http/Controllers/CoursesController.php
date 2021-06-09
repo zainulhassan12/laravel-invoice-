@@ -19,6 +19,8 @@ class CoursesController extends Controller
         ->orderBy('id')
         ->Paginate(7, ['*'], 'course');
         $price =zcbm_cource_fee::all();
+
+        // dd($students);
         // return view('invoice.invoiceIndex') ->with('cource' , $students)->with('price',$price);
         return view('Cources.courseIndex') ->with('cource' , $students)->with('price',$price);;
     }

@@ -121,14 +121,18 @@ i {
 
 .badge {
     display: inline-block;
-    padding: .40em .4em;
+    padding: 0.4em 0.4em;
     font-size: 75%;
     font-weight: 700;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: 0.30rem;
+    border-radius: 0.3rem;
+}
+
+.invoice-dashboard {
+    margin-top: 70px;
 }
 
 

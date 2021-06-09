@@ -4,7 +4,7 @@
 @endsection
 @section('main-body')
 <div class="">
- 
+ {{$Record}}
     <table class="table table-sm table-bordered">
         <thead class="thead-light">
           <tr>
@@ -41,7 +41,7 @@
                  <form class="form-inline" action="{{ Route('DeleteStudent',$item->ZCBM_Id)}}" method="POST">
                     <div class="btn-group" data-toggle="">
                           <a class="btn btn-primary btn-sm" href="{{ Route('DisplayStudent',$item->ZCBM_Id)}}"> View</a>
-                          <a class="btn btn-secondary btn-sm" href="{{ Route('EditSintudent',$item->ZCBM_Id)}}"> edit</a>
+                          <a class="btn btn-secondary btn-sm" href="{{ Route('EditStudent',$item->ZCBM_Id)}}"> edit</a>
                           <button class="btn btn-danger btn-sm btn-right" type="submit">delete</button>
                           @csrf 
                           @method('DELETE')

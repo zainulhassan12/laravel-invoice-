@@ -20,13 +20,7 @@ use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('index');
-});
-
-Route::group(['prefix'=>'zcbminvoice'], function(){
-
-});
-
-
+})->name('Home');
 Route::group(['prefix'=>'student'], function(){
     Route::get('/students',  [StudentController::class, 'index'])->name('StudentIndex');
     Route::get('/addstudent',  [StudentController::class, 'create'])->name('CreateStudent');
@@ -40,6 +34,10 @@ Route::group(['prefix'=>'student'], function(){
 Route::group(['prefix'=>'invoice'], function(){
     Route::get('/index',  [InvoiceController::class, 'index'])->name('InvoiceIndex');
     Route::get('/create',  [InvoiceController::class, 'create'])->name('InvoiceCreate');
+    Route::post('/create/getTotalAmount',  [InvoiceController::class, 'getTotalPriceAjax'])->name('InvoiceCreateToalAmount');
+
+    Route::get('/create/courseinvoice',  [InvoiceController::class, 'createInvoiceWithCourse'])->name('InvoiceCreatewithCourse');
+
     Route::get('/store',  [InvoiceController::class, 'store'])->name('InvoiceStore');
     Route::get('/update/{id}',  [InvoiceController::class, 'update'])->name('InvoiceUpdate');
     Route::get('/delete',  [InvoiceController::class, 'destroy'])->name('InvoiceDelete');
