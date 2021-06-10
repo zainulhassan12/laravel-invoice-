@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\zcbm_cources;
 use App\Models\zcbm_cource_fee;
+use App\Models\Invoice;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\Query\JoinClause;
 
@@ -22,15 +23,14 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        // $students =  DB::table('zcbm_course')
-        // ->select('zcbm_course.id','zcbm_course.fullname','zcbm_course.shortname',DB::raw('zcbm_cource_fees.price as price'))
-        // ->leftJoin('zcbm_cource_fees', 'zcbm_course.fee_id', '=', 'zcbm_cource_fees.fee_id')
-        // ->where('zcbm_course.id','>', '1')
-        // ->orderBy('id')
-        // ->Paginate(7, ['*'], 'course');
-        // $price =zcbm_cource_fee::all();
-        // return view('invoice.invoiceIndex');
-        
+        $invoice_all = Invoice::find(1)->studentIn();
+        $data2 = Student::all();
+        dd($data2);
+        dd($invoice_all);
+        $Invoice = new Invoice;
+        $student = $Invoice::find(1)->student;
+        dd($student);
+        return view('Invoice.invoiceIndex')->with('data', $invoice_all);
     }
 
     /**
@@ -55,17 +55,25 @@ class InvoiceController extends Controller
     }
     public function getTotalPriceAjax(Request $request)
     {
+
         $course_id = $request->course_id;
         $course = DB::table('zcbm_course')->select('fee_id')->where('id', $course_id)->get();
         $coursef = $course[0]->fee_id;
-        $fee_id = DB::table('zcbm_cource_fees')->select('fee_id','price')->where('fee_id',$coursef)->get();
+        $fee_id = DB::table('zcbm_cource_fees')->select('zcbm_cource_fees.fee_id','zcbm_cource_fees.price')->where('fee_id','=', $coursef)->get();
+    //     $course_fee = DB::table('zcbm_course')
+    //    ->select('zcbm_course.id','zcbm_course.fullname',DB::raw('zcbm_cource_fees.price as price'),DB::raw('zcbm_cource_fees.fee_id as fee_id'))
+    //    ->leftJoin('zcbm_cource_fees', 'zcbm_course.fee_id', '=', 'zcbm_cource_fees.fee_id')
+    //     ->where('zcbm_course.fee_id', '=', $coursef)
+    //     ->orderBy('id')
+    //     ->get();
+    if(isset($fee_id))
+    {   
         $data = [
             'fee_id'=> $fee_id
-        ];
-       
-        return response()->json($data, $status = 200,);
-        
+        ];  
+        return response()->json($data, 200); 
     }
+}
 
     /**
      * Store a newly created resource in storage.
@@ -75,7 +83,43 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    $invoice_data = $request->validate([
+        'student_id' => 'required|numeric',
+        'current_level'=> 'required',
+        'qualification_route'=>'required',
+        'course_id'=>'required|numeric|min:1',
+        'total_ammount'=>'required',
+        'Qualification_Route'=>'required',
+        'due_date'=> 'required|date',
+        // 'Total_Tuition_Fees'=>'required|numeric',
+        'Current_Level'=>'required',
+        'Discount'=>'numeric'
+    ]);
+
+    $invoices = Invoice::where('student_id','=', $request->student_id)->get();
+    if(!$invoices->isEmpty()){
+        $balance = $invoices->balance;
+        if(isset($request->Discount)){
+            $invoice_data['total_ammount']  = $invoice_data['total_ammount'] - $request->Discount;
+        }
+        $invoice_data['balance'] = $balance + $invoice_data["total_ammount"];  
+    
+    }
+    else{
+        if(isset($request->Discount)){
+            $invoice_data['total_ammount']  = $invoice_data['total_ammount'] - $request->Discount;
+        }
+        $invoice_data['balance'] = 0;
+        $invoice_data['ammount_paid'] = 0;
+    }
+    // dd($invoice_data);
+        $invoice_data['fee_id'] = $request->fee_id;
+        $invoice_data['issued_by'] = "zain";
+
+
+    $store = new Invoice;
+    $store::create($invoice_data);
+    return redirect()->route('InvoiceIndex') ->withSuccess('Invoice Created Succcessfully!!');
     }
 
     /**
