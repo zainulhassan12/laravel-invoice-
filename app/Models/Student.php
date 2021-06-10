@@ -28,6 +28,11 @@ class Student extends Model
     public function get_students(){
         return $this::all();
     }
+    public function Invoice()
+    {
+        return $this->hasMany(Invoice::class, 'ZCBM_Id','student');
+    }
+    
     
     public function store_data($request){
         $this::create($request->all());

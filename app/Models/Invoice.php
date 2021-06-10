@@ -20,16 +20,25 @@ class Invoice extends Model
         'balance',
         'issued_by',
         'course_id',
+        'due_date',
         'fee_id',
     ];
 
-    public function student(){
-        return $this->hasOne('App\Models\Student');
+    public function studentIn(){
+        return $this->hasOne(Student::class,'ZCBM_Id','student_id');
     }
      public function course(){
         return $this->hasOne('App\Models\zcbm_cources');
     }
     public function fee(){
         return $this->hasOne('App\Models\zcbm_cources');
+    } 
+    public function setUpdatedAt($value)
+    {
+    // Do nothing.
+    }
+    public function setCreatedAt($value)
+    {
+    // Do nothing.
     }
 }

@@ -20,13 +20,12 @@ class CreateIncoicesTable extends Migration
             $table->integer('fee_id');
             $table->string('current_level');
             $table->string('qualification_route');
-            $table->date('start_date');
+            $table->date('due_date');
             $table->integer('ammount_paid');
             $table->integer('total_ammount');
             $table->integer('balance');
             $table->string('issued_by');
             $table->timestamp('issue_date');
-        
         });
     }
 

@@ -38,7 +38,7 @@ Route::group(['prefix'=>'invoice'], function(){
 
     Route::get('/create/courseinvoice',  [InvoiceController::class, 'createInvoiceWithCourse'])->name('InvoiceCreatewithCourse');
 
-    Route::get('/store',  [InvoiceController::class, 'store'])->name('InvoiceStore');
+    Route::post('/store',  [InvoiceController::class, 'store'])->name('InvoiceStore');
     Route::get('/update/{id}',  [InvoiceController::class, 'update'])->name('InvoiceUpdate');
     Route::get('/delete',  [InvoiceController::class, 'destroy'])->name('InvoiceDelete');
     Route::get('/show/{id}',  [InvoiceController::class, 'show'])->name('InvoiceShow');
