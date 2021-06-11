@@ -13,6 +13,8 @@ use Illuminate\Database\Query\JoinClause;
 
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\Input;
+// use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -23,14 +25,28 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoice_all = Invoice::find(1)->studentIn();
-        $data2 = Student::all();
-        dd($data2);
-        dd($invoice_all);
-        $Invoice = new Invoice;
-        $student = $Invoice::find(1)->student;
-        dd($student);
-        return view('Invoice.invoiceIndex')->with('data', $invoice_all);
+        // $invoice_all = Invoice::find(1)->studentIn();
+        $invoices = DB::table('zcbm_invoices_seprate')
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+       'zcbm_course.fullname','zcbm_cource_fees.price as price')
+        ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
+        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
+        ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->get();
+        
+        // $id = 1;
+        // $student = Invoice::find($id)->studentIn;
+        // dd($student);
+         
+        //  dd($invoices);
+        // dd($invoices);                                        
+        // $data2 = Student::all();
+        // dd($data2);
+        // dd($invoice_all);
+        // $Invoice = new Invoice;
+        
+        // dd($student);
+        return view('Invoice.invoiceIndex')->with('data',$invoices);
     }
 
     /**
@@ -38,6 +54,17 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getStudentAjax(Request $request){
+        $id = $request->student_id;
+        $student = Invoice::find($id)->studentIn;
+        // dd($student);
+        return response()->json(['student'=>$student]);
+    }
+
+    public function getCourseAjax(Request $request){
+        $course =  Invoice::find($request->student_id)->course()->get(['fullname','shortname','startdate','id']);
+        return response()->json(['course'=>$course]);
+    }
     public function create()
     {
         $students = Student::all('ZCBM_Id', 'Name','Surname');
@@ -164,6 +191,29 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         
+    }
+    public function invoiceDownload(Request $request,$id){
+        // dd($id);
+        $pdfdata= DB::table('zcbm_invoices_seprate')
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+         'zcbm_course.fullname','zcbm_cource_fees.price as price')
+        ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
+        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
+        ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->get();
+        
+        return view('Invoice.invoicepdf')->with('pdfdata',$pdfdata);
+    }
+    public function Download(){
+        $pdfdata= DB::table('zcbm_invoices_seprate')
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+         'zcbm_course.fullname','zcbm_cource_fees.price as price')
+        ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
+        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
+        ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->get();
+        $pdf = PDF::loadView('Invoice.invoicepdf',$pdfdata);
+        return $pdf->download('Invoice.pdf');
     }
 
 }

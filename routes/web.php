@@ -33,8 +33,14 @@ Route::group(['prefix'=>'student'], function(){
 
 Route::group(['prefix'=>'invoice'], function(){
     Route::get('/index',  [InvoiceController::class, 'index'])->name('InvoiceIndex');
+    Route::post('/index/viewstudent',  [InvoiceController::class, 'getStudentAjax'])->name('InvoiceGetStudentInfo');
+    Route::post('/index/viewcourse',  [InvoiceController::class, 'getCourseAjax'])->name('InvoiceGetCourseInfo'); 
+    Route::post('/index/invoicedownload/{id}',  [InvoiceController::class, 'invoiceDownload'])->name('InvoiceDownloadView'); 
+    Route::get('/index/invoicedownload',  [InvoiceController::class, 'Download'])->name('InvoiceDownload'); 
+
     Route::get('/create',  [InvoiceController::class, 'create'])->name('InvoiceCreate');
     Route::post('/create/getTotalAmount',  [InvoiceController::class, 'getTotalPriceAjax'])->name('InvoiceCreateToalAmount');
+
 
     Route::get('/create/courseinvoice',  [InvoiceController::class, 'createInvoiceWithCourse'])->name('InvoiceCreatewithCourse');
 

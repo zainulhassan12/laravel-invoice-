@@ -28,7 +28,7 @@ class Invoice extends Model
         return $this->hasOne(Student::class,'ZCBM_Id','student_id');
     }
      public function course(){
-        return $this->hasOne('App\Models\zcbm_cources');
+        return $this->hasOne(zcbm_cources::class, 'id','course_id');
     }
     public function fee(){
         return $this->hasOne('App\Models\zcbm_cources');

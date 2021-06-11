@@ -144,6 +144,14 @@ i {
     font-size: 14px;
 }
 
+body>div.container>div>div.invoice-dashboard>div>div.card-body>table>tbody>tr>td:nth-child(12) {
+    width: 116px !important;
+}
+
+body>div.container>div>div.invoice-dashboard>div>div.card-body>table>thead>tr>th:nth-child(3) {
+    width: 180px;
+}
+
 
 /* body>div.container>div>div>div.col-sm-6.col-md-6>div:nth-child(1) {
     max-height: 250px;
