@@ -212,7 +212,7 @@ class InvoiceController extends Controller
         ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
         ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
         ->get();
-        $pdf = PDF::loadView('Invoice.invoicepdf',$pdfdata);
+        $pdf = PDF::loadView('Invoice.invoicepdf',compact('pdfdata'));
         return $pdf->download('Invoice.pdf');
     }
 

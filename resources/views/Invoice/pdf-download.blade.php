@@ -10,30 +10,16 @@
         img{
             opacity: 0.6;
         }
-        .container{
-            padding: 20px;
-        }
-        body>div>div.devider>hr {
-            height: 2px;
-            border-width: 0;
-            color: gray;
-            background-color: gray;
-        }
     </style>
 </head>
 <body>
     <div class="container col-md-8 invoice-header">
         <div class="float-right">
-            <form action="{{Route('InvoiceDownload')}}">
+            <!-- <form action="{{Route('InvoiceDownload')}}">
             <button type="submit" class="btn btn-primary btn-sm">PDF</button></div>
-            </form>
-
-        <!-- <img src="/image/zcbm-header.png" height="300px" width="300px" alt=""> -->
-        <img src="{{public_path('zcbmheader.png')}}" height="300px" width="300px" alt="">
-
+            </form> -->
+        <img src="/image/zcbm-header.png" height="300px" width="300px" alt="">
         <div class="devider"><hr></div>
-        {{$pdfdata}}
-    
     </div>
     
     
