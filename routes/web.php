@@ -36,7 +36,7 @@ Route::group(['prefix'=>'invoice'], function(){
     Route::post('/index/viewstudent',  [InvoiceController::class, 'getStudentAjax'])->name('InvoiceGetStudentInfo');
     Route::post('/index/viewcourse',  [InvoiceController::class, 'getCourseAjax'])->name('InvoiceGetCourseInfo'); 
     Route::post('/index/invoicedownload/{id}',  [InvoiceController::class, 'invoiceDownload'])->name('InvoiceDownloadView'); 
-    Route::get('/index/invoicedownload',  [InvoiceController::class, 'Download'])->name('InvoiceDownload'); 
+    Route::get('/download',  [InvoiceController::class, 'DownloadInvoice'])->name('InvoiceDownload'); 
 
     Route::get('/create',  [InvoiceController::class, 'create'])->name('InvoiceCreate');
     Route::post('/create/getTotalAmount',  [InvoiceController::class, 'getTotalPriceAjax'])->name('InvoiceCreateToalAmount');
@@ -68,7 +68,3 @@ Route::group(['prefix' => 'cources'] , function() {
     Route::post ('/addPriceCourse/{c_id}' ,[CoursesController::class, 'addPirce'])->name('CoursePriceAdding');
 
 });
-
-
-
-

@@ -24,8 +24,6 @@
         <th scope="col">Issued By</th>
         <th scope="col">Issue date</th>
         <th scope="col">Action</th>
-
-
       </tr>
     </thead>
     <tbody>

@@ -195,25 +195,26 @@ class InvoiceController extends Controller
     public function invoiceDownload(Request $request,$id){
         // dd($id);
         $pdfdata= DB::table('zcbm_invoices_seprate')
-        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname','students.Email',
          'zcbm_course.fullname','zcbm_cource_fees.price as price')
         ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
         ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
         ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
         ->get();
-        
         return view('Invoice.invoicepdf')->with('pdfdata',$pdfdata);
     }
-    public function Download(){
+    public function DownloadInvoice(Request $request){
+        
         $pdfdata= DB::table('zcbm_invoices_seprate')
-        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname','students.Email',
          'zcbm_course.fullname','zcbm_cource_fees.price as price')
         ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
         ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
         ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
         ->get();
         $pdf = PDF::loadView('Invoice.invoicepdf',compact('pdfdata'));
-        return $pdf->download('Invoice.pdf');
+        return $pdf->download('Invoice.pdf')->setPaper('a4', 'landscape');
     }
+
 
 }
