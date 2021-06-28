@@ -1,12 +1,11 @@
 @extends('layouts.main')
 
 @section('main-body')
-<div class="col-md-12">
+<div class="container invoice-dashboard" style="padding: 10px">
   @section('page-headings')
    <h3>Student Details</h4>
   @endsection
-    
-      {{-- <a href="../" class="btn btn-primary pull-left">back</a>   --}}
+  
       @if ($errors->any())
       <div class="alert alert-danger">
           <strong>Whoops!</strong> There were some problems with your input.<br><br>

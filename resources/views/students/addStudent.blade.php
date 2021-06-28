@@ -22,7 +22,7 @@
           </div>
           </div>  
           @csrf 
-            @if ($errors->any())
+            {{-- @if ($errors->any())
             <div class="alert alert-danger">
                 <strong>Whoops!</strong> There were some problems with your input.<br><br>
                 <ul>
@@ -31,7 +31,7 @@
                     @endforeach
                 </ul>
               </div>
-              @endif
+              @endif --}}
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail4"><span style="color:red">*</span>Name</label>

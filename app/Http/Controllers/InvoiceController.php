@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\zcbm_cources;
 use App\Models\zcbm_cource_fee;
 use App\Models\Invoice;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\Query\JoinClause;
 
@@ -33,19 +34,6 @@ class InvoiceController extends Controller
         ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
         ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
         ->get();
-        
-        // $id = 1;
-        // $student = Invoice::find($id)->studentIn;
-        // dd($student);
-         
-        //  dd($invoices);
-        // dd($invoices);                                        
-        // $data2 = Student::all();
-        // dd($data2);
-        // dd($invoice_all);
-        // $Invoice = new Invoice;
-        
-        // dd($student);
         return view('Invoice.invoiceIndex')->with('data',$invoices);
     }
 
@@ -59,6 +47,20 @@ class InvoiceController extends Controller
         $student = Invoice::find($id)->studentIn;
         // dd($student);
         return response()->json(['student'=>$student]);
+    }
+
+    public function getAllStudentsInvoices(Request $request, $id){
+        $_id = $id;
+        $invoices = DB::table('zcbm_invoices_seprate')
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+       'zcbm_course.fullname','zcbm_cource_fees.price as price')
+        ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
+        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
+        ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->where('student_id' ,'=', $_id)
+        ->get();
+        // dd($invoices);
+        return response()->json(['Invoices' => $invoices]);
     }
 
     public function getCourseAjax(Request $request){
@@ -122,32 +124,20 @@ class InvoiceController extends Controller
         'Current_Level'=>'required',
         'Discount'=>'numeric'
     ]);
-
-    $invoices = Invoice::where('student_id','=', $request->student_id)->get();
-    if(!$invoices->isEmpty()){
-        $balance = $invoices->balance;
-        if(isset($request->Discount)){
-            $invoice_data['total_ammount']  = $invoice_data['total_ammount'] - $request->Discount;
-        }
-        $invoice_data['balance'] = $balance + $invoice_data["total_ammount"];  
-    
-    }
-    else{
+         
         if(isset($request->Discount)){
             $invoice_data['total_ammount']  = $invoice_data['total_ammount'] - $request->Discount;
         }
         $invoice_data['balance'] = 0;
         $invoice_data['ammount_paid'] = 0;
-    }
-    // dd($invoice_data);
         $invoice_data['fee_id'] = $request->fee_id;
         $invoice_data['issued_by'] = "zain";
-
 
     $store = new Invoice;
     $store::create($invoice_data);
     return redirect()->route('InvoiceIndex') ->withSuccess('Invoice Created Succcessfully!!');
     }
+
 
     /**
      * Display the specified resource.
@@ -166,9 +156,34 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $invoice_data = $request->validate([
+            'qualification_route'=>'required',
+            'total_ammount'=>'required',
+            'Qualification_Route'=>'required',
+            'due_date'=> 'required|date',
+            // 'Total_Tuition_Fees'=>'required|numeric',
+            'current_level'=>'required',
+            
+        ]);
+        $invoices = Invoice::where('id','=', $id)->get();
+        if(!$invoices->isEmpty()){
+            // dd($invoices[0]->balance);
+            $balance =$invoices[0]->balance;
+            if(isset($request->Discount) && isset($balance)){
+                $invoice_data['total_ammount']  = $invoice_data['total_ammount'] - $request->Discount;
+
+            }
+        
+        }
+            if(isset($invoice_data)){
+            
+            $affecetd = DB::table('zcbm_invoices_seprate')
+             ->where('id', $id)
+             ->update($invoice_data);
+            };
+        return redirect()->route('InvoiceIndex') ->withSuccess('Invoice Edited Succcessfully!!');
     }
 
     /**
@@ -180,6 +195,16 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $invoices = DB::table('zcbm_invoices_seprate')
+        ->select('zcbm_invoices_seprate.*','students.Name','students.Surname',
+       'zcbm_course.fullname','zcbm_cource_fees.price as price')
+        ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
+        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
+        ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->where('zcbm_invoices_seprate.id' ,'=', $id)
+        ->get();
+        
+        return view('Invoice.editInvoice')->with('Invoice', $invoices);
     }
 
     /**
@@ -188,22 +213,45 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+
+
+    public function addpayment(Request $request, $id){
+        $payment = $request->validate([
+            'payment'=>'numeric|required'
+        ]);
+        $updateInvoice = Invoice::find($id);
+        $total_ammount = $updateInvoice->total_ammount;
+        $balance = $updateInvoice->balance;
+        $balance = $total_ammount - $payment['payment'];
+        $ammount_paid = $payment['payment'];
+        $affecetd = DB::table('zcbm_invoices_seprate')
+        ->where('id', $id)
+        ->update(['balance'  => $balance, 'ammount_paid'=> $ammount_paid]);
+        // $updateInvoice->ammount_paid = $payment;
+        // $updateInvoice->save();
+        return redirect()->route('InvoiceIndex')->withSuccess('Payment added to invoice sucessfully!!');
         
+
+    }
+     public function destroy($id)
+    {
+        $Invoice = Invoice::all();
+        $deleteInvoice = $Invoice->find($id);
+        $deleteInvoice->delete();
+        return redirect()->route('InvoiceIndex')->withSuccess('Invoice Deleted Successfully');
     }
     public function invoiceDownload(Request $request,$id){
-        // dd($id);
         $pdfdata= DB::table('zcbm_invoices_seprate')
         ->select('zcbm_invoices_seprate.*','students.Name','students.Surname','students.Email',
-         'zcbm_course.fullname','zcbm_cource_fees.price as price')
+         'zcbm_course.fullname','zcbm_cource_fees.price')
         ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
-        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
+        ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id') 
         ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->where('zcbm_invoices_seprate.id','=', $id)
         ->get();
-        return view('Invoice.invoicepdf')->with('pdfdata',$pdfdata);
+        return view('Invoice.invoicepdf')->with('pdfdata',$pdfdata)->with('id', $id);
     }
-    public function DownloadInvoice(Request $request){
+    public function DownloadInvoice(Request $request, $id){
         
         $pdfdata= DB::table('zcbm_invoices_seprate')
         ->select('zcbm_invoices_seprate.*','students.Name','students.Surname','students.Email',
@@ -211,9 +259,11 @@ class InvoiceController extends Controller
         ->Join('students', 'zcbm_invoices_seprate.student_id','=','students.ZCBM_Id')
         ->leftJoin('zcbm_course','zcbm_invoices_seprate.course_id','=','zcbm_course.id')    
         ->leftJoin('zcbm_cource_fees','zcbm_invoices_seprate.fee_id','=','zcbm_cource_fees.fee_id')
+        ->where('zcbm_invoices_seprate.id','=', $id)
         ->get();
-        $pdf = PDF::loadView('Invoice.invoicepdf',compact('pdfdata'));
-        return $pdf->download('Invoice.pdf')->setPaper('a4', 'landscape');
+        $date = date('y-m-d');
+        $pdf = PDF::loadView('Invoice.pdf-download',compact('pdfdata','date'));
+        return $pdf->download("Invoice-".$pdfdata[0]->Name."-".$pdfdata[0]->Surname."-".$date.".pdf");
     }
 
 

@@ -5,7 +5,7 @@
 <h4>Update Form</h4>
 @endsection
 
-@if ($errors->any())
+{{-- @if ($errors->any())
 <div class="row">
   <div class="col-md-6">
 
@@ -23,7 +23,7 @@
   </div>
 </div>
       
-      @endif
+      @endif --}}
 <form method="Post" action="{{Route('UpdateStudent', $item->ZCBM_Id)}}">
 @csrf
 @method('PUT')
@@ -108,7 +108,7 @@
       <div class="form-group col-md-6">
         <label class="mr-sm-2"  for="inlineFormCustomSelect">Current Level	</label>
         <select name="Current_Level" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-          <option selected>{{$item->Current_level}}</option>
+          <option selected>{{$item->Current_Level}}</option>
           <option value="Certificate">Certificate</option>
           <option value="Diploma">Diploma</option>
           <option value="Advance Diploma">Advance Diploma</option>

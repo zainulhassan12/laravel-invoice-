@@ -46,15 +46,24 @@
         <td >{{$item->current_level}}</td>
         <td>{{$item->qualification_route}}</td>
         <td>{{$item->due_date}}</td>
-        <td>{{$item->ammount_paid}}</td>
+        <td>{{$item->ammount_paid}}
+          <a id="modal-button" href=""  data-toggle="modal" data-url="{{Route('InvoicePayment', $item->id)}}" data-total="{{$item->total_ammount}}" data-target="#addPayments"  class="float-right">
+            <i class="fa fa-plus" style="margin-left:5px;color:royalblue;font-size:15px" title="View Course"></i>
+          </a>
+        </td>
         <td>{{$item->total_ammount}}</td>
         <td >{{$item->balance}}</td>
         <td >{{$item->issued_by}}</td>
         <td>{{$item->issue_date}}</td>
         <td>
-          <a href=""><i class="fa fa-pencil-square-o" style="color: royalblue;font-size:16px" aria-hidden="true" title="Edit Invoice"></i></a>
+          <a href="{{Route ('updateInvoice', $item->id)}}"><i class="fa fa-pencil-square-o" style="color: royalblue;font-size:16px" aria-hidden="true" title="Edit Invoice"></i></a>
           <div class="border-left-span"></div>
-          <a class="" style="display: inline;" href=""><i class="fa fa-trash-o" style="color:red;font-size:16px" aria-hidden="true" title="Delete Invoice"></i></a>
+          
+          <form method="POST"style="display:inline" action="{{Route ('deleteInvoice', $item->id)}}">
+            @csrf
+            @method('DELETE')
+           <button class="badge btn" type="submit"><i class="fa fa-trash-o" style="color:red;font-size:16px" aria-hidden="true" title="Delete Invoice"></i></button>
+          </form>
           <div class="border-left-span"></div>
           <form style="display:inline" action="{{Route('InvoiceDownloadView',$item->id)}}" method="POST">
             @csrf
@@ -71,6 +80,37 @@
 </div>
 </div>
 <!--Modals -->
+<!--Add payment to invoice model-->
+<div class="modal fade bd-example-modal-lg" id="addPayments" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="padding:13px">
+     <div class="modal-header">
+        <h5 class="modal-title">Add Payments</h5>
+        <button type="button" style="color: red;" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <label id="">Total price For Invoice is : $<span style="color: red" id="totalammont"></span></label>
+      <form id="addPaymentsForm" action="" method="post">
+        @csrf
+        {{-- @method('POST') --}}
+      <div class="modal-body">
+         <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Add Payment in USD</label>
+          <input type="text" class="form-control" name="payment" id="" aria-describedby="emailHelp" required>
+          <div id="emailHelp" class="form-text">This is in USD</div>        
+          </div>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-group">
+          <button type="submit" class="btn btn-success btn-sm btn-left" type="submit">Save</button>
+          <button type="button" class="btn btn-danger btn-sm btn-right" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 <!--View Student Modal -->
 <div class="modal fade bd-example-modal-lg" id="viewstudent" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -114,13 +154,12 @@
           <tr>
             <th scope="col">Course#</th>
             <th scope="col">Full Name</th>
-            <!-- <th scope="col">Surname</th> -->
             <th scope="col">Short Name</th>
+            <th scope="col">Start Date</th>
 
-          
           </tr>
         </thead>
-        <tbody id="studentrow">
+        <tbody id="courserow">
         </tbody>
      </table>
     </div>
@@ -175,25 +214,38 @@
         success:function(result){
           var html = '<tr>';
           if (result.course){
-            console.log(result.course);
+            var parsedData = new Date(result.course[0].startdate).toLocaleDateString("en-US")
+            // console.log(s);
+
             ajaxResult = result.course[0];
             var modal = $('#viewcourse')
              html +='<td>' + ajaxResult.id +'</td>';
             html +='<td>' + ajaxResult.fullname+'</td>';
             html +='<td>' + ajaxResult.shortname+'</td>';
-            html +='<td>' + Date.parse(ajaxResult.Start_Date) +'</td></tr>';
+            html +='<td>' + parsedData +'</td></tr>';
 
             // html +='<td>' + ajaxResult.startdate +'</td><tr>';
             // console.log(ajaxResult)
           
             // modal.find('.modal-title').text('New message to ')
-            modal.find('.modal-content #studentrow').html(html)
+            modal.find('.modal-content #courserow').html(html)
      
           }else{
             alert("Data isn't founded!!!");
           }
         },
       });
+        
+    });
+    $('#addPayments').on('show.bs.modal', function (event) {  
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var total = button.data('total');
+      var url =button.data('url');
+      console.log(url);
+      console.log(total);
+      var modal = $(this)
+      $('#addPaymentsForm').attr('action', url)
+      modal.find('#totalammont').html(total);
         
     });
   });

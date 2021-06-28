@@ -17,7 +17,6 @@ class StudentController extends Controller
     {
         $Model =new Student;
         $Students = $Model->get_students();
-        // dd($Students);
         return view('students.studentsIndex')->with("Record",$Students);
     }
 

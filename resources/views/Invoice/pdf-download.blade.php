@@ -13,7 +13,7 @@
         .container{
             padding: 20px;
         }
-        body>div>div.devider>hr {
+        hr {
             height: 2px;
             border-width: 0;
             color: gray;
@@ -35,18 +35,14 @@
     </style>
 </head>
 <body>
-    
-    <div class="">
-        <div class="image" style="">
-         
-            </div>
-            <br>
-             
-            <br>
+    <img style="clear: both" src="{{ public_path('image/zcbm-header.png')}}" height="150" width="150" alt="ZCBM_LOGO">
+    <div>
+        {{$date}}
+        <br>
         @foreach ($pdfdata as $item)
         <label for="to3">To :</label> <span id="to3">{{$item->Name}} {{$item->Surname}}</span>
         <br>
-        <label for="to3">Email :</label> <span id="to3">{{$item->Email}}</span>
+        <label for="to3">Email :</label> <span id="to3" style="color:darkturquoise;text-decoration:underline">{{$item->Email}}</span>
         <br>
         @endforeach
      </div>
@@ -64,24 +60,32 @@
                 <p>Due Date</p>
                 <p>Issued by :</p>
             </div>
-            <div>
+            <div style="position:absolute">
 
             </div>
-            <div class="" style="float:right"> 
-                @foreach ($pdfdata as $item)
-                    <p>{{$item->Name}}  {{$item->Surname}} (ZCBM- {{$item->student_id}})</p> 
-                    <p>{{$item->current_level}}</p> 
-                    <p>{{$item->qualification_route}}</p>
-                    <p>{{$item->total_ammount}}</p> 
-                    <p>{{$item->fullname}}</p> 
-                    <p>{{$item->issue_date}} </p> 
-                    <p>${{$item->ammount_paid}} </p> 
-                    <p>${{$item->balance}} </p> 
-                    <p>{{$item->due_date}} </p>
-                    <p>{{$item->issued_by}} </p>
-                @endforeach
-            </div>  
-        {{$pdfdata}}    
-    </div>
+            <div>
+                <div class="" style="float:right"> 
+                    @foreach ($pdfdata as $item)
+                        <p>{{$item->Name}}  {{$item->Surname}} (ZCBM- {{$item->student_id}})</p> 
+                        <p>{{$item->current_level}}</p> 
+                        <p>{{$item->qualification_route}}</p>
+                        <p>${{$item->total_ammount}}</p> 
+                        <p>{{$item->fullname}}</p> 
+                        <p>{{$item->issue_date}} </p> 
+                        <p>${{$item->ammount_paid}} </p> 
+                        <p>${{$item->balance}} </p> 
+                        <p>{{$item->due_date}} </p>
+                        <p>{{$item->issued_by}} </p>
+                    @endforeach
+                </div> 
+            </div>
+    <br>
+    <label for="" style="clear:both">Signed By: </label>
+        <div class="footer" style="clear:both; position: fixed;bottom:50;text-align: center;color:rgb(85, 214, 214);">
+                <p>Zanzibar College of Business & Management Limited (t/a) Zanzibar Centre of Business & Management</p>
+                <p>PO Box 1103, Kwa Mchina, Mombasa, Zanzibar, Tanzania</p> 
+                <p>T: +255 (0) 772293502 || E: info@zcbm.education || W: www.zcbm.education</p>
+        </div>
+    
 </body>
 </html>

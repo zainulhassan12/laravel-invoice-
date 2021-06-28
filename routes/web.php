@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PriceController;
@@ -18,9 +19,11 @@ use App\Http\Controllers\StudentController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('Home');
+
+Route::get('/', [DashboardController::class, 'index'])->name('Home');
+// Route::get('/', function () {
+//     return view('index');
+// })->name('Home');
 Route::group(['prefix'=>'student'], function(){
     Route::get('/students',  [StudentController::class, 'index'])->name('StudentIndex');
     Route::get('/addstudent',  [StudentController::class, 'create'])->name('CreateStudent');
@@ -34,12 +37,19 @@ Route::group(['prefix'=>'student'], function(){
 Route::group(['prefix'=>'invoice'], function(){
     Route::get('/index',  [InvoiceController::class, 'index'])->name('InvoiceIndex');
     Route::post('/index/viewstudent',  [InvoiceController::class, 'getStudentAjax'])->name('InvoiceGetStudentInfo');
+    Route::post('/index/getInvoices/{id}',  [InvoiceController::class, 'getAllStudentsInvoices'])->name('allInvoices');
+    
     Route::post('/index/viewcourse',  [InvoiceController::class, 'getCourseAjax'])->name('InvoiceGetCourseInfo'); 
     Route::post('/index/invoicedownload/{id}',  [InvoiceController::class, 'invoiceDownload'])->name('InvoiceDownloadView'); 
-    Route::get('/download',  [InvoiceController::class, 'DownloadInvoice'])->name('InvoiceDownload'); 
+    Route::get('/download/{id}',  [InvoiceController::class, 'DownloadInvoice'])->name('InvoiceDownload'); 
 
     Route::get('/create',  [InvoiceController::class, 'create'])->name('InvoiceCreate');
     Route::post('/create/getTotalAmount',  [InvoiceController::class, 'getTotalPriceAjax'])->name('InvoiceCreateToalAmount');
+    Route::post('/update/{id}',  [InvoiceController::class, 'update'])->name('updateInvoice');
+    Route::delete('/delete/{id}',  [InvoiceController::class, 'destroy'])->name('deleteInvoice');
+
+    Route::put('/edit/{id}',  [InvoiceController::class, 'edit'])->name('EdittheInvoice');
+
 
 
     Route::get('/create/courseinvoice',  [InvoiceController::class, 'createInvoiceWithCourse'])->name('InvoiceCreatewithCourse');
@@ -48,6 +58,8 @@ Route::group(['prefix'=>'invoice'], function(){
     Route::get('/update/{id}',  [InvoiceController::class, 'update'])->name('InvoiceUpdate');
     Route::get('/delete',  [InvoiceController::class, 'destroy'])->name('InvoiceDelete');
     Route::get('/show/{id}',  [InvoiceController::class, 'show'])->name('InvoiceShow');
+    Route::post('/payment/{id}',  [InvoiceController::class, 'addpayment'])->name('InvoicePayment');
+
     
 });
 
